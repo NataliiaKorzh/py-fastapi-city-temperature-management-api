@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
 from app.dependencies import get_db
@@ -36,4 +36,6 @@ def update_city(city_id: int, city: schemas.CityCreate, db: Session = Depends(ge
 @router.delete("/cities/{city_id}/")
 def delete_city(city_id: int, db: Session = Depends(get_db)):
     deleted_city = crud.delete_city(db, city_id)
-    return {"message": deleted_city["message"]}
+    if deleted_city:
+        return Response(status_code=204)
+    raise HTTPException(status_code=404, detail="City not found")

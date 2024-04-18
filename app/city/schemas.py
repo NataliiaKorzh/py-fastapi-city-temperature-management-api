@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class CityBase(BaseModel):
     name: str
-    additional_info: str | None = None
+    additional_info: str
 
 
 class CityCreate(CityBase):
